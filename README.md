@@ -25,7 +25,7 @@
 - 
 ## DER COM PRINCIPAIS TABELAS CRIADAS
   
--
+![Diagrama Entidade_Relacionamento](der.png)
 
 ## FLUXOGRAMA DO SISTEMA
 
