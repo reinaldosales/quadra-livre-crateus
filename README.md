@@ -22,7 +22,7 @@
   - Envio automático de comprovante de reserva com detalhes (local, horário, regras).
 
 ## 3 TELAS PROTOTIPADAS NO FIGMA (SIGNIN, SIGNUP, TELA PRINCIPAL)
-- 
+-[Telas desenvolvidas](https://www.figma.com/design/8w4EF5jgqIDRw3Qmz6Drxp/QuadraLivre-Crateus-teste?node-id=0-1&t=ZbKJHYVbBVp9y6Jt-1)
 ## DER COM PRINCIPAIS TABELAS CRIADAS
   
 ![Diagrama Entidade_Relacionamento](der.png)
