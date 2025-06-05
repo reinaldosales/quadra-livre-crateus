@@ -3,9 +3,9 @@
 ## Levantamento de requisitos funcionais e não funcionais
 ## MER inicial
 ![Diagrama Entidade_Relacionamento](../der.png)
-# Casos de Uso
+## Casos de Uso
 
-## 1. Realizar Reserva de Quadra
+### 1. Realizar Reserva de Quadra
 - **Ator Principal:** Usuário
 - **Descrição:** O usuário seleciona uma quadra, escolhe um horário disponível e confirma a reserva.
 - **Pré-condições:** Usuário cadastrado e autenticado.
@@ -14,7 +14,7 @@
 
 ---
 
-## 2. Visualizar Quadras e Horários Disponíveis
+### 2. Visualizar Quadras e Horários Disponíveis
 - **Ator Principal:** Usuário
 - **Descrição:** O usuário pode ver uma lista ou mapa das quadras disponíveis, com filtros por tipo de esporte, localização e horários livres.
 - **Pré-condições:** Nenhuma (acesso aberto).
@@ -22,7 +22,7 @@
 
 ---
 
-## 3. Cancelar Reserva
+### 3. Cancelar Reserva
 - **Ator Principal:** Usuário
 - **Descrição:** O usuário acessa seu painel, visualiza reservas futuras e pode cancelar qualquer uma dentro do prazo permitido.
 - **Pré-condições:** Reserva ativa e dentro do prazo de cancelamento (ex.: até 2h antes).
@@ -30,7 +30,7 @@
 
 ---
 
-## 4. Cadastrar/Editar Quadra
+### 4. Cadastrar/Editar Quadra
 - **Ator Principal:** Gestor
 - **Descrição:** O gestor cadastra uma nova quadra ou edita as informações de uma já existente (nome, tipo de esporte, localização, horários de funcionamento).
 - **Pré-condições:** Gestor autenticado.
@@ -38,7 +38,7 @@
 
 ---
 
-## 5. Avaliar Quadra
+### 5. Avaliar Quadra
 - **Ator Principal:** Usuário
 - **Descrição:** Após o uso da quadra, o usuário pode avaliar sua condição (limpeza, iluminação, etc.) por meio de nota e comentário.
 - **Pré-condições:** Usuário com reserva concluída na quadra.
