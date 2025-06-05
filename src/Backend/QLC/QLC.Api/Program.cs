@@ -19,7 +19,26 @@ builder.Services.AddInfraestructure(builder.Configuration);
 builder.Services.AddRepositoryIoc();
 builder.Services.AddServicesIoC();
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins(
+                    "http://localhost:5173",
+                    "https://localhost:5173"
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
+
 var app = builder.Build();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapIdentityApi<User>();
 
@@ -27,11 +46,5 @@ app.MapOpenApi();
 app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
-
-app.MapGet("/GetUsers", async (IUserService userService) =>
-    {
-        return Results.Ok(await userService.GetAllUsers());
-    })
-    .WithName("Helo");
 
 app.Run();
