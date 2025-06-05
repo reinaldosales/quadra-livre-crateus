@@ -2,6 +2,6 @@
 ## Documento de visão e escopo do projeto
 ## Levantamento de requisitos funcionais e não funcionais
 ## MER inicial
-![Diagrama Entidade_Relacionamento](der.png)
+![Diagrama Entidade_Relacionamento](quadra-livre-crateus/der.png)
 ## Protótipos de alta fidelidade
 ## Apresentação oral do planejamento
