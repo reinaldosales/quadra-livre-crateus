@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-qlc-primary: #2B9954;
+  --color-qlc-secondary: #1E723D;
+  --color-qlc-tertiary: #144E2A;
+}
+
+html,
+body {
+  /* @apply bg-[linear-gradient(45deg, _theme('colors.agileos-tertiary'), _theme('colors.agileos-secondary'), _theme('colors.agileos-primary'))]; */
+}
