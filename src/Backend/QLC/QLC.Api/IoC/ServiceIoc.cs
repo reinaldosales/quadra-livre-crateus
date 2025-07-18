@@ -7,7 +7,11 @@ public static class ServiceIoc
 {
     public static IServiceCollection AddServicesIoC(this IServiceCollection services)
     {
-        services.AddScoped<IUserService, UserService>();
+        services
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IFeedbackService, FeedbackService>()
+            .AddScoped<IBookingService, BookingService>()
+            .AddScoped<ICourtService, CourtService>();
         
         return services;
     }

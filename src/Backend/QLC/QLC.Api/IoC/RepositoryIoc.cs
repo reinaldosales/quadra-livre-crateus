@@ -9,7 +9,12 @@ public static class RepositoryIoc
 {
     public static IServiceCollection AddRepositoryIoc(this IServiceCollection services)
     {
-        services.AddScoped<IUserRepository, UserRepository>();
+        services
+            .AddScoped<IUserRepository, UserRepository>()
+            .AddScoped<IFeedbackRepository, FeedbackRepository>()
+            .AddScoped<IBookingRepository, BookingRepository>()
+            .AddScoped<ICourtRepository, CourtRepository>()
+            .AddScoped<IUnitOfWork, UnitOfWork>();
         
         return services;
     }

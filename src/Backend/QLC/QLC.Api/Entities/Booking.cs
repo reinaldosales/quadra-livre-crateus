@@ -6,6 +6,7 @@ public class Booking : EntityBase<long>
 
     public Booking(
         User user,
+        Court court,
         DateTime reserveDate,
         BookingStatus status,
         DateTime createdAt,
@@ -18,6 +19,7 @@ public class Booking : EntityBase<long>
     }
     
     public User User { get; private set; }
-    public DateTime ReserveDate { get; set; }
-    public BookingStatus Status { get; set; }
+    public Court Court { get; private set; }
+    public DateTime ReserveDate { get; private set; }
+    public BookingStatus Status { get; private set; }
 }

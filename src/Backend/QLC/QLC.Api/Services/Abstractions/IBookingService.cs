@@ -1,0 +1,9 @@
+using QLC.Api.DTOs.Booking;
+
+namespace QLC.Api.Services.Abstractions;
+
+public interface IBookingService
+{
+    public Task Save(CreateBookingDto bookingDto);
+    public Task<IEnumerable<BookingDto>> GetAll();
+}
