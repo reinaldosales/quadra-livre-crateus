@@ -17,7 +17,7 @@ public class BookingService(
     private readonly ICourtRepository _courtRepository = courtRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     
-    public async Task Save(CreateBookingDto bookingDto)
+    public async Task CreateBooking(CreateBookingDto bookingDto)
     {
         User user = await _userRepository.GetById(bookingDto.UserId)
             ?? throw new UserNotFoundException();
@@ -37,7 +37,8 @@ public class BookingService(
         Booking booking = new Booking(
             user,
             court,
-            bookingDto.ReserveDate,
+            bookingDto.StartDate,
+            bookingDto.EndDate,
             BookingStatus.Created,
             createdAt: DateTime.Now,
             updatedAt: DateTime.Now,

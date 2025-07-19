@@ -4,6 +4,6 @@ namespace QLC.Api.Services.Abstractions;
 
 public interface IBookingService
 {
-    public Task Save(CreateBookingDto bookingDto);
+    public Task CreateBooking(CreateBookingDto bookingDto);
     public Task<IEnumerable<BookingDto>> GetAll();
 }

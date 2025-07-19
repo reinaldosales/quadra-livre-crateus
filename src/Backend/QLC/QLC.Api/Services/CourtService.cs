@@ -1,4 +1,5 @@
 using QLC.Api.DTOs.Court;
+using QLC.Api.Entities;
 using QLC.Api.Repositories.Abstractions;
 using QLC.Api.Services.Abstractions;
 
@@ -10,14 +11,27 @@ public class CourtService(
 {
     private readonly ICourtRepository _courtRepository = courtRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    
-    public Task Save(CreateCourtDto courtDto)
+
+    public async Task CreateCourt(CreateCourtDto courtDto)
     {
-        throw new NotImplementedException();
+        Court court = new Court(
+            courtDto.Name,
+            courtDto.Address,
+            courtDto.Type,
+            isAvailable: true,
+            createdAt: DateTime.Now,
+            updatedAt: DateTime.Now,
+            deletedAt: null);
+        
+        await _courtRepository.Save(court);
+        
+        await _unitOfWork.CommitAsync();
     }
 
-    public Task<IEnumerable<CourtDto>> GetAll()
+    public async Task<IEnumerable<CourtDto>> GetAll()
     {
-        throw new NotImplementedException();
+        var courts = await _courtRepository.GetAll();
+        
+        return courts.Select(court => new CourtDto(court.Id, court.Name, court.Address, court.Type, court.IsAvailable));
     }
 }

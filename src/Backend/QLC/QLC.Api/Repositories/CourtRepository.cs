@@ -9,7 +9,7 @@ public class CourtRepository(ApplicationDbContext context) : ICourtRepository
 {
     ApplicationDbContext _context = context;
     
-    public async Task Insert(Court court)
+    public async Task Save(Court court)
     {
         await _context.Courts.AddAsync(court);
     }

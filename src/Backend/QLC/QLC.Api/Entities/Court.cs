@@ -2,7 +2,9 @@ namespace QLC.Api.Entities;
 
 public class Court : EntityBase<long>
 {
-    public Court() { }
+    public Court()
+    {
+    }
 
     public Court(
         string name,
@@ -18,6 +20,7 @@ public class Court : EntityBase<long>
         Type = type;
         IsAvailable = isAvailable;
     }
+
     public string Name { get; private set; }
     public string Address { get; private set; }
     public CourtType Type { get; private set; }
