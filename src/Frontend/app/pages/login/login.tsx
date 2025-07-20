@@ -38,7 +38,7 @@ export default function Login() {
       <div className="w-full md:w-1/3 bg-white/95 backdrop-blur-sm p-8 flex flex-col justify-center space-y-6 md:rounded-tr-2xl md:rounded-br-2xl min-h-screen">
         <div className="flex flex-col items-center space-y-4 mb-12">
 
-          <h1 className="text-4xl font-bold text-qlc-primary">Seja bem-vindo ao Quadra Livre Crateús!</h1>
+          <h1 className="text-4xl font-bold text-qlc-primary">Seja bem-vindo a Quadra Livre Crateús!</h1>
 
         </div>
 

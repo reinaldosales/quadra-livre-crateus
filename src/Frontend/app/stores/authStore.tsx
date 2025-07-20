@@ -30,7 +30,9 @@ export const useAuthStore = create<AuthState>()(
           const response = await api.post('/login', { email, password });
           set({
             isAuthenticated: true,
-            user: response.data.email,
+            user: {
+              email: email
+            },
             token: response.data.accessToken,
             loading: false
           });
@@ -47,7 +49,7 @@ export const useAuthStore = create<AuthState>()(
       logout: async () => {
         set({ loading: true });
         try {
-          await api.post('/api/account/logout', {});
+          await api.post('/logout', {});
           set({
             isAuthenticated: false,
             user: null,

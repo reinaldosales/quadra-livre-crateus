@@ -54,7 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { isAuthenticated, fetchUser } = useAuthStore();
+  const { isAuthenticated, loading, fetchUser } = useAuthStore();
   const navigate = useNavigate();
 
   // Efeito para carregar o usuário ao montar o app
@@ -64,12 +64,14 @@ export default function App() {
 
   // Redirecionamento baseado no estado de autenticação
   useEffect(() => {
+    if (!loading) {
       if (isAuthenticated && ['/login', '/register', '/'].includes(window.location.pathname)) {
         navigate('/dashboard');
-      } else if (!isAuthenticated && !['/login', '/register'].includes(window.location.pathname)) {
-        navigate('/');
       }
-  }, [isAuthenticated, navigate]);
+    } else if (!isAuthenticated && !['/login', '/register'].includes(window.location.pathname)) {
+      navigate('/');
+    }
+  }, [isAuthenticated, loading, navigate]);
 
   return <Outlet />;
 }

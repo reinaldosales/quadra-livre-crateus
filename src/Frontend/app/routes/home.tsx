@@ -4,7 +4,7 @@ import { Welcome } from "../welcome/welcome";
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Quadra Livre Crateus | Bem-vindo" },
-    { name: "description", content: "Seja bem-vindo ao Quadra Livre Crateus!" },
+    { name: "description", content: "Seja bem-vindo a Quadra Livre Crateus!" },
   ];
 }
 

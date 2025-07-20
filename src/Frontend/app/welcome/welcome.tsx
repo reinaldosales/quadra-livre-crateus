@@ -15,7 +15,7 @@ export function Welcome() {
             className="w-24 h-24"
           />
           <h1 className="text-4xl font-bold text-qlc-primary">
-            Seja bem-vindo ao Quadra Livre Crateús<script></script>!
+            Seja bem-vindo a Quadra Livre Crateús<script></script>!
           </h1>
         </div>
 

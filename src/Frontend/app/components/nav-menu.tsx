@@ -1,12 +1,20 @@
 import { useState } from "react";
 import logo from "~/welcome/assets/quadra-livre-crateus-logo.png";
+import { useAuthStore } from "~/stores/authStore";
+import { useNavigate } from "react-router";
 
 export function NavMenu() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [accountOpen, setAccountOpen] = useState(false);
+    const { logout, user } = useAuthStore();
+    const navigate = useNavigate();
 
-    // Exemplo de nome de usuário, substitua pelo valor real do seu store
-    const userName = "Nome do Usuário";
+    const userName = user?.email || "Usuário";
+    
+    const handleLogout = async () => {
+        await logout();
+        navigate('/');
+    }
 
     return (
         <nav className="bg-white border-b border-gray-200">
@@ -57,7 +65,7 @@ export function NavMenu() {
                                     <div className="px-4 py-2 text-gray-700 text-sm border-b">{userName}</div>
                                     <button
                                         className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm"
-                                    // onClick={logout}
+                                    onClick={handleLogout}
                                     >
                                         Sair
                                     </button>
