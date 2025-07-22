@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using QLC.Api.Context;
 using QLC.Api.Contracts.Booking;
+using QLC.Api.Contracts.Feedback;
 using QLC.Api.DTOs.Booking;
 using QLC.Api.Entities;
 using QLC.Api.Extensions;
@@ -57,6 +60,13 @@ var bookings = app
 
 bookings.MapPost("/", CreateBooking);
 
+var feedbacks = app
+    .MapGroup("api/v1/feedbacks")
+    .WithOpenApi()
+    .RequireAuthorization();
+
+feedbacks.MapPost("/", CreateFeedback);
+
 async Task<IResult> CreateBooking(
     CreateBookingModel model,
     IBookingService bookingService,
@@ -85,5 +95,38 @@ async Task<IResult> CreateBooking(
         return Results.BadRequest();
     }
 }
+
+async Task<IResult> CreateFeedback(CreateFeedbackModel model,
+    IFeedbackService feedbackService,
+    ILogger<CreateFeedbackModel> logger)
+{
+    try
+    {
+        var validationResult = model.Validate();
+
+        if (validationResult != null)
+            return validationResult;
+
+        CreateFeedbackDto createFeedbackDto = new CreateFeedbackDto(
+            model.UserId,
+            model.CourtId,
+            model.Comment);
+
+        await feedbackService.CreateFeedback(createFeedbackDto);
+
+        return Results.Created();
+    }
+    catch (Exception e)
+    {
+        logger.LogError(e.Message);
+        return Results.BadRequest();
+    }
+}
+
+app.MapPost("/logout", async (SignInManager<User> signInManager, [FromBody] object empty) =>
+{
+    await signInManager.SignOutAsync();
+    return Results.Ok();
+});
 
 app.Run();

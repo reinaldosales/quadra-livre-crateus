@@ -39,7 +39,7 @@ export const useAuthStore = create<AuthState>()(
           localStorage.setItem('authToken', response.data.accessToken);
         } catch (error: any) {
           set({
-            error: error.response?.data?.message || 'Login failed',
+            error: error.response?.data?.message || 'E-mail ou senhas inválidos',
             loading: false
           });
           throw error;

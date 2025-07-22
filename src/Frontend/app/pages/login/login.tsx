@@ -104,6 +104,7 @@ export default function Login() {
             <button
               onClick={() => navigate('/register')}
               className="w-full py-3 bg-qlc-tertiary text-white rounded-lg hover:bg-qlc-primary transition-colors"
+              type="button"
             >
               Criar uma conta
             </button>

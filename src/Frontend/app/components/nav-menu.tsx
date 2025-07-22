@@ -17,7 +17,7 @@ export function NavMenu() {
     }
 
     return (
-        <nav className="bg-white border-b border-gray-200">
+        <nav className="bg-qlc-secondary border-b border-qlc-primary">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 justify-between items-center">
                     {/* Logo */}
@@ -31,10 +31,16 @@ export function NavMenu() {
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-4">
                         <a
-                            href="/"
-                            className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                            href="/dashboard"
+                            className="text-white hover:text-qlc-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
                         >
                             Início
+                        </a>
+                        <a
+                            href="/booking"
+                            className="text-white hover:text-qlc-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                        >
+                            Reservas
                         </a>
                         {/* Conta */}
                         <div className="relative">
@@ -42,10 +48,10 @@ export function NavMenu() {
                                 onClick={() => setAccountOpen(!accountOpen)}
                                 className="flex items-center space-x-2 focus:outline-none"
                             >
-                                <span className="text-gray-700 font-medium">{userName}</span>
-                                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-200">
+                                <span className="text-white font-medium">{userName}</span>
+                                <span className="border-1 border-white inline-flex items-center justify-center h-8 w-8 rounded-full bg-qlc-primary/20">
                                     <svg
-                                        className="h-5 w-5 text-gray-500"
+                                        className="h-5 w-5 text-white"
                                         fill="none"
                                         stroke="currentColor"
                                         strokeWidth={2}
@@ -61,11 +67,11 @@ export function NavMenu() {
                             </button>
                             {/* Submenu */}
                             {accountOpen && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                                    <div className="px-4 py-2 text-gray-700 text-sm border-b">{userName}</div>
+                                <div className="absolute right-0 mt-2 w-48 bg-white border border-qlc-primary rounded-md shadow-lg z-50">
+                                    <div className="px-4 py-2 text-qlc-primary text-sm border-b">{userName}</div>
                                     <button
-                                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm"
-                                    onClick={handleLogout}
+                                        className="w-full text-left px-4 py-2 text-qlc-primary hover:bg-qlc-secondary hover:text-white text-sm transition-colors"
+                                        onClick={handleLogout}
                                     >
                                         Sair
                                     </button>
@@ -77,7 +83,7 @@ export function NavMenu() {
                     <div className="md:hidden flex items-center">
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}
-                            className="text-gray-700 hover:text-blue-600 focus:outline-none"
+                            className="text-white hover:text-qlc-primary focus:outline-none"
                         >
                             <svg
                                 className="h-6 w-6"
@@ -98,18 +104,24 @@ export function NavMenu() {
             </div>
             {/* Mobile Menu */}
             {menuOpen && (
-                <div className="md:hidden px-2 pt-2 pb-3 space-y-1">
+                <div className="md:hidden px-2 pt-2 pb-3 space-y-1 bg-qlc-secondary">
                     <a
-                        href="/"
-                        className="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium"
+                        href="/dashboard"
+                        className="block text-white hover:text-qlc-primary px-3 py-2 rounded-md text-base font-medium transition-colors"
                     >
                         Início
                     </a>
-                    <div className="border-t border-gray-200 my-2"></div>
+                    <a
+                        href="/booking"
+                        className="block text-white hover:text-qlc-primary px-3 py-2 rounded-md text-base font-medium transition-colors"
+                    >
+                        Reservas
+                    </a>
+                    <div className="border-t border-qlc-primary my-2"></div>
                     <div className="flex items-center space-x-2 px-3">
-                        <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-200">
+                        <span className="border-1 border-white text-white inline-flex items-center justify-center h-8 w-8 rounded-full bg-qlc-primary/20">
                             <svg
-                                className="h-5 w-5 text-gray-500"
+                                className="h-5 w-5 text-white"
                                 fill="none"
                                 stroke="currentColor"
                                 strokeWidth={2}
@@ -122,11 +134,11 @@ export function NavMenu() {
                                 />
                             </svg>
                         </span>
-                        <span className="text-gray-700 font-medium">{userName}</span>
+                        <span className="text-white font-medium">{userName}</span>
                     </div>
                     <button
-                        className="block w-full text-left text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium"
-                    // onClick={logout}
+                        className="block w-full text-left text-qlc-primary hover:bg-qlc-secondary hover:text-white px-3 py-2 rounded-md text-base font-medium transition-colors"
+                        onClick={handleLogout}
                     >
                         Sair
                     </button>
