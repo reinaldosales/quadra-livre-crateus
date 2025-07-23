@@ -19,11 +19,11 @@ public class FeedbackService(
 
     public async Task CreateFeedback(CreateFeedbackDto feedbackDto)
     {
-        User user = await _userRepository.GetById(feedbackDto.UserId)
-                    ?? throw new UserNotFoundException();
+        User user = await _userRepository.GetByEmail(feedbackDto.UserId)
+            ?? throw new UserNotFoundException();
 
         Court court = await _courtRepository.GetById(feedbackDto.CourtId)
-                      ?? throw new CourtNotFoundException();
+            ?? throw new CourtNotFoundException();
 
         Feedback feedback = new Feedback(
             user,

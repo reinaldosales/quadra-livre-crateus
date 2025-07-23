@@ -19,7 +19,7 @@ public class BookingService(
     
     public async Task CreateBooking(CreateBookingDto bookingDto)
     {
-        User user = await _userRepository.GetById(bookingDto.UserId)
+        User user = await _userRepository.GetByEmail(bookingDto.UserId)
             ?? throw new UserNotFoundException();
         
         Court court = await _courtRepository.GetById(bookingDto.CourtId)
