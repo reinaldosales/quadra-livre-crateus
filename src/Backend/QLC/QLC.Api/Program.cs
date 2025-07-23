@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QLC.Api.Context;
 using QLC.Api.Contracts.Booking;
+using QLC.Api.Contracts.Court;
 using QLC.Api.Contracts.Feedback;
 using QLC.Api.DTOs.Booking;
+using QLC.Api.DTOs.Court;
 using QLC.Api.Entities;
 using QLC.Api.Extensions;
 using QLC.Api.IoC;
@@ -66,6 +69,32 @@ var feedbacks = app
     .RequireAuthorization();
 
 feedbacks.MapPost("/", CreateFeedback);
+
+var courts = app
+    .MapGroup("api/v1/courts")
+    .WithOpenApi()
+    .RequireAuthorization();
+
+courts.MapPost("/", CreateCourt);
+
+async Task<IResult> CreateCourt(
+    CreateCourtModel model,
+    ICourtService courtService)
+{
+    var validationResult = model.Validate();
+
+    if (validationResult != null)
+        return validationResult;
+
+    CreateCourtDto createCourtDto = new CreateCourtDto(
+        model.Name,
+        model.Address,
+        model.Type);
+
+    await courtService.CreateCourt(createCourtDto);
+
+    return Results.Created();
+}
 
 async Task<IResult> CreateBooking(
     CreateBookingModel model,
