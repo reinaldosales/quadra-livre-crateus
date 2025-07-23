@@ -30,3 +30,7 @@
 ## FLUXOGRAMA DO SISTEMA
 
 ![Fluxograma](fluxograma.png)
+
+## CASOS DE USO
+
+![Casos de uso](useCase.png)
