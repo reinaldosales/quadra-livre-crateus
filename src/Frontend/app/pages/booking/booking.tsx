@@ -57,8 +57,8 @@ const Booking = () => {
       await api.post("/api/v1/bookings", {
         userId: email,
         courtId: id,
-        startDate: `${selectedDate}T${start}:00`,
-        endDate: `${selectedDate}T${end}:00`,
+        startDate: `${selectedDate}T${start}:00Z`,
+        endDate: `${selectedDate}T${end}:00Z`,
       });
 
       alert("Reserva confirmada!");
