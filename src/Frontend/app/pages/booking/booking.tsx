@@ -46,17 +46,17 @@ const Booking = () => {
       { start: "18:00", end: "19:00", available: true },
     ]);
   }, []);
-  
+
   const handleSubmit = async () => {
     if (!selectedSlot) return;
-    
+
     try {
       const [start, end] = selectedSlot.split("_");
       console.log(email);
-      
+
       await api.post("/api/v1/bookings", {
-        userId: { email },
-        courtId: { id },
+        userId: email,
+        courtId: id,
         startDate: `${selectedDate}T${start}:00`,
         endDate: `${selectedDate}T${end}:00`,
       });
