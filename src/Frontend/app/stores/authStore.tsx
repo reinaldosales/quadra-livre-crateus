@@ -27,16 +27,19 @@ export const useAuthStore = create<AuthState>()(
       login: async (email, password) => {
         set({ loading: true, error: null });
         try {
-          const response = await api.post('/login', { email, password });
+          const response = await api.post('/api/v1/login', { email, password });
+
+          const token = response.data.token;
+
           set({
             isAuthenticated: true,
             user: {
               email: email
             },
-            token: response.data.accessToken,
+            token: token,
             loading: false
           });
-          localStorage.setItem('authToken', response.data.accessToken);
+          localStorage.setItem('authToken', token);
         } catch (error: any) {
           set({
             error: error.response?.data?.message || 'E-mail ou senhas inválidos',

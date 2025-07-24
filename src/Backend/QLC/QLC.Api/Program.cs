@@ -115,7 +115,7 @@ courts.MapGet("/", GetAllCourts);
 async Task<IResult> GetAllCourts(
     ICourtService courtService,
     HttpContext context,
-    ILogger logger)
+    ILogger<Program> logger)
 {
     try
     {
