@@ -29,30 +29,22 @@ const Booking = () => {
 
   const { isLoading, withLoading } = useLoading();
 
-  // useEffect(() => {
-  //   const fetchSlots = async () => {
-  //     try {
-  //       const response = await api.get(`/api/v1/bookings/slots`, {
-  //         params: { date: selectedDate },
-  //       });
-
-  //       setTimeSlots(response.data);
-  //     } catch (err) {
-  //       console.error("Erro ao buscar horários:", err);
-  //       setTimeSlots([]);
-  //     }
-  //   };
-
-  //   fetchSlots();
-  // }, [selectedDate]);
-
   useEffect(() => {
-    setTimeSlots([
-      { start: "16:00", end: "17:00", available: false },
-      { start: "17:00", end: "18:00", available: true },
-      { start: "18:00", end: "19:00", available: true },
-    ]);
-  }, []);
+    const fetchSlots = async () => {
+      try {
+        const response = await api.get(`/api/v1/bookings`, {
+          params: { date: selectedDate },
+        });
+
+        setTimeSlots(response.data);
+      } catch (err) {
+        console.error("Erro ao buscar horários:", err);
+        setTimeSlots([]);
+      }
+    };
+
+    fetchSlots();
+  }, [selectedDate]);
 
   const handleSubmit = async () => {
     if (!selectedSlot || !email) return;

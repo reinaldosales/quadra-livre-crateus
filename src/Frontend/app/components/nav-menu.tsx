@@ -37,10 +37,10 @@ export function NavMenu() {
                             Início
                         </a>
                         <a
-                            href="/booking"
+                            href="/contact"
                             className="text-white hover:text-qlc-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
                         >
-                            Reservas
+                            Contato
                         </a>
                         {/* Conta */}
                         <div className="relative">
