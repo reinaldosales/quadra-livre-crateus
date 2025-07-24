@@ -5,6 +5,10 @@ import { ptBR } from "date-fns/locale";
 import { NavMenu } from "~/components/nav-menu";
 import { useParams } from "react-router";
 import { useAuthStore } from "~/stores/authStore";
+import { useLoading } from "~/hooks/useLoading";
+import { LoadingSpinner } from "~/components/LoadingSpinner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type TimeSlot = {
   start: string;
@@ -16,11 +20,14 @@ const Booking = () => {
   const { id } = useParams();
   const { user } = useAuthStore();
   const email = user?.email;
+
   const [selectedDate, setSelectedDate] = useState(() =>
     format(new Date(), "yyyy-MM-dd")
   );
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+
+  const { isLoading, withLoading } = useLoading();
 
   // useEffect(() => {
   //   const fetchSlots = async () => {
@@ -48,24 +55,25 @@ const Booking = () => {
   }, []);
 
   const handleSubmit = async () => {
-    if (!selectedSlot) return;
+    if (!selectedSlot || !email) return;
 
-    try {
-      const [start, end] = selectedSlot.split("_");
-      console.log(email);
+    await withLoading(async () => {
+      try {
+        const [start, end] = selectedSlot.split("_");
 
-      await api.post("/api/v1/bookings", {
-        userId: email,
-        courtId: id,
-        startDate: `${selectedDate}T${start}:00Z`,
-        endDate: `${selectedDate}T${end}:00Z`,
-      });
+        await api.post("/api/v1/bookings", {
+          userId: email,
+          courtId: id,
+          startDate: `${selectedDate}T${start}:00Z`,
+          endDate: `${selectedDate}T${end}:00Z`,
+        });
 
-      alert("Reserva confirmada!");
-    } catch (error) {
-      console.error("Erro ao reservar:", error);
-      alert("Erro ao tentar reservar.");
-    }
+        toast.success("Agendamento realizado com sucesso!");
+      } catch (error) {
+        console.error("Erro ao reservar:", error);
+        toast.error("O agendamento falhou. Tente novamente.");
+      }
+    });
   };
 
   return (
@@ -126,13 +134,17 @@ const Booking = () => {
         </div>
 
         <button
-          disabled={!selectedSlot}
+          disabled={!selectedSlot || isLoading}
           onClick={handleSubmit}
           className="w-full bg-green-700 text-white py-3 rounded-lg font-semibold text-lg hover:bg-green-800 transition disabled:bg-gray-400"
         >
-          Confirmar reserva
+          {isLoading ? "Reservando..." : "Confirmar reserva"}
         </button>
+
+        {isLoading && <LoadingSpinner />}
       </div>
+
+      <ToastContainer position="top-center" autoClose={3000} />
     </>
   );
 };

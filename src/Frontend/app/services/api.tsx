@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { useAuthStore } from '../stores/authStore';
+import axios from "axios";
+import { useAuthStore } from "../stores/authStore";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://localhost:7012',
-  withCredentials: true
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5057",
+  withCredentials: true,
 });
 
 // Interceptor para adicionar o token às requisições
@@ -13,7 +13,7 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  
+
   return config;
 });
 
