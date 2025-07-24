@@ -7,19 +7,19 @@ public class Feedback : EntityBase<long>
     }
 
     public Feedback(
-        User user,
-        Court court,
+        string userId,
+        long courtId,
         string comment,
         DateTime createdAt,
         DateTime updatedAt,
         DateTime? deletedAt) : base(createdAt, updatedAt, deletedAt)
     {
-        Court = court;
+        CourtId = courtId;
         Comment = comment;
-        User = user;
+        UserId = userId;
     }
 
-    public User User { get; private set; }
-    public Court Court { get; private set; }
+    public string UserId { get; private set; }
+    public long CourtId { get; private set; }
     public string Comment { get; private set; }
 }

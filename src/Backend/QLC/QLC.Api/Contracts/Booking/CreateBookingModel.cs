@@ -5,9 +5,6 @@ namespace QLC.Api.Contracts.Booking;
 public class CreateBookingModel
 {
     [Required]
-    public string UserId { get; set; }
-
-    [Required]
     public long CourtId { get; set; }
 
     [Required]

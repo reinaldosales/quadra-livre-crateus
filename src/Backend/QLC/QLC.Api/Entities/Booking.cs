@@ -9,8 +9,8 @@ public class Booking : EntityBase<long>
     }
 
     public Booking(
-        User user,
-        Court court,
+        string userId,
+        long courtId,
         DateTime startDate,
         DateTime endDate,
         BookingStatus status,
@@ -18,20 +18,21 @@ public class Booking : EntityBase<long>
         DateTime updatedAt,
         DateTime? deletedAt) : base(createdAt, updatedAt, deletedAt)
     {
-        User = user;
+        UserId = userId;
+        CourtId = courtId;
         Status = status;
         StartDate = startDate;
         EndDate = endDate;
         
-        if(startDate > endDate || startDate < DateTime.Now || endDate < DateTime.Now)
+        if(startDate > endDate || startDate.Hour < DateTime.Now.Hour || endDate.Hour < DateTime.Now.Hour)
             throw new CreateBookingException("Invalid date range");
         
         if(startDate.Subtract(endDate).Hours > 2)
             throw new CreateBookingException("Hours exceeds 2 hours");
     }
 
-    public User User { get; private set; }
-    public Court Court { get; private set; }
+    public string UserId { get; private set; }
+    public long CourtId { get; private set; }
     public DateTime StartDate { get; private set; }
     public DateTime EndDate { get; private set; }
     public BookingStatus Status { get; private set; }

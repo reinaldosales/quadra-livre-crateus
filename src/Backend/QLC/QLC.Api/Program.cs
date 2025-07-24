@@ -1,6 +1,12 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using QLC.Api.Context;
 using QLC.Api.Contracts.Booking;
 using QLC.Api.Contracts.Court;
@@ -16,8 +22,6 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
-
-builder.Services.AddAuthorization();
 
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -45,9 +49,39 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        var config = builder.Configuration;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = config["Jwt:Issuer"],
+            ValidAudience = config["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(config["Jwt:Key"]))
+        };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy =>
+        policy.RequireClaim("is_admin", "true"));
+});
+
 var app = builder.Build();
 
 app.UseCors(MyAllowSpecificOrigins);
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapIdentityApi<User>();
 
@@ -73,9 +107,26 @@ feedbacks.MapPost("/", CreateFeedback);
 var courts = app
     .MapGroup("api/v1/courts")
     .WithOpenApi()
-    .RequireAuthorization();
+    .RequireAuthorization("Admin");
 
 courts.MapPost("/", CreateCourt);
+courts.MapGet("/", GetAllCourts);
+
+async Task<IResult> GetAllCourts(
+    ICourtService courtService,
+    HttpContext context,
+    ILogger logger)
+{
+    try
+    {
+        return Results.Ok(await courtService.GetAll());
+    }
+    catch (Exception e)
+    {
+        logger.LogError(e.Message);
+        return Results.BadRequest();
+    }
+}
 
 async Task<IResult> CreateCourt(
     CreateCourtModel model,
@@ -99,17 +150,23 @@ async Task<IResult> CreateCourt(
 async Task<IResult> CreateBooking(
     CreateBookingModel model,
     IBookingService bookingService,
-    ILogger<CreateBookingModel> logger)
+    ILogger<CreateBookingModel> logger,
+    HttpContext httpContext)
 {
     try
     {
+        var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        if (string.IsNullOrEmpty(userId))
+            return Results.Unauthorized();
+        
         var validationResult = model.Validate();
 
         if (validationResult != null)
             return validationResult;
 
         CreateBookingDto createBookingDto = new CreateBookingDto(
-            model.UserId,
+            userId,
             model.CourtId,
             model.StartDate,
             model.EndDate);
@@ -125,19 +182,26 @@ async Task<IResult> CreateBooking(
     }
 }
 
-async Task<IResult> CreateFeedback(CreateFeedbackModel model,
+async Task<IResult> CreateFeedback(
+    CreateFeedbackModel model,
     IFeedbackService feedbackService,
-    ILogger<CreateFeedbackModel> logger)
+    ILogger<CreateFeedbackModel> logger,
+    HttpContext httpContext)
 {
     try
     {
+        var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        if (string.IsNullOrEmpty(userId))
+            return Results.Unauthorized();
+        
         var validationResult = model.Validate();
 
         if (validationResult != null)
             return validationResult;
 
         CreateFeedbackDto createFeedbackDto = new CreateFeedbackDto(
-            model.UserId,
+            userId,
             model.CourtId,
             model.Comment);
 
@@ -157,5 +221,47 @@ app.MapPost("/logout", async (SignInManager<User> signInManager, [FromBody] obje
     await signInManager.SignOutAsync();
     return Results.Ok();
 });
+
+app.MapPost("/api/v1/login", async (
+    LoginRequest model,
+    UserManager<User> userManager,
+    SignInManager<User> signInManager,
+    IConfiguration config) =>
+{
+    var user = await userManager.FindByEmailAsync(model.Email);
+    
+    if (user == null)
+        return Results.Unauthorized();
+
+    var isPasswordValid = await userManager.CheckPasswordAsync(user, model.Password);
+    if (!isPasswordValid)
+        return Results.Unauthorized();
+
+    var claims = new List<Claim>
+    {
+        new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+        new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+        new Claim(ClaimTypes.NameIdentifier, user.Id)
+    };
+
+    if (user.IsAdmin)
+        claims.Add(new Claim("is_admin", "true"));
+
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
+    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+    var token = new JwtSecurityToken(
+        issuer: config["Jwt:Issuer"],
+        audience: config["Jwt:Audience"],
+        claims: claims,
+        expires: DateTime.UtcNow.AddHours(2),
+        signingCredentials: creds
+    );
+
+    var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
+
+    return Results.Ok(new { token = tokenStr });
+});
+
 
 app.Run();

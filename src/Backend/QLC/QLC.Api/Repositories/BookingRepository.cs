@@ -25,6 +25,6 @@ public class BookingRepository(ApplicationDbContext context) : IBookingRepositor
     {
         return await _context.Bookings
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.User.Id == userId && x.Court.Id == courtId && x.Status == status);
+            .FirstOrDefaultAsync(x => x.UserId == userId && x.CourtId == courtId && x.Status == status);
     }
 }
