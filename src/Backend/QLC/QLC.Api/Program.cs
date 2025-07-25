@@ -106,10 +106,9 @@ feedbacks.MapPost("/", CreateFeedback);
 
 var courts = app
     .MapGroup("api/v1/courts")
-    .WithOpenApi()
-    .RequireAuthorization("Admin");
+    .WithOpenApi();
 
-courts.MapPost("/", CreateCourt);
+courts.MapPost("/", CreateCourt).RequireAuthorization("Admin");
 courts.MapGet("/", GetAllCourts);
 
 async Task<IResult> GetAllCourts(
