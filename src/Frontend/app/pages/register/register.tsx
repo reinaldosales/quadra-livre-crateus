@@ -5,12 +5,12 @@ import { Footer } from "~/components/footer";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { error } = useAuthStore();
+  const { error, register } = useAuthStore();
   const [localLoading, setLocalLoading] = useState(false);
 
   // Efeito para resetar qualquer estado persistido
   useEffect(() => {
-    useAuthStore.setState({ loading: false});
+    useAuthStore.setState({ loading: false });
   }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -24,9 +24,20 @@ const Register = () => {
     setLocalLoading(true);
 
     try {
-      await useAuthStore.getState().register(email, password);
+      var result = await register(email, password);
       navigate('/login');
-    } finally {
+    }
+    catch (err: any) {
+      let errorMsg = "Erro ao criar a conta. Tente novamente.";
+      const apiErrors = err?.response?.data?.errors;
+      if (apiErrors && typeof apiErrors === "object") {
+        errorMsg = Object.values(apiErrors)
+          .flat()
+          .join(" ");
+      }
+      useAuthStore.setState({ error: errorMsg });
+    }
+    finally {
       setLocalLoading(false);
     }
   };
@@ -122,8 +133,8 @@ const Register = () => {
             </button>
           </div>
         </form>
-        
-        <Footer className="text-xs text-center p-8 absolute bottom-0"/>
+
+        <Footer className="text-xs text-center p-8 absolute bottom-0" />
       </div>
     </div>
   )
