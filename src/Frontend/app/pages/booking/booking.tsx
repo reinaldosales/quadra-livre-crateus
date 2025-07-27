@@ -9,6 +9,7 @@ import { useLoading } from "~/hooks/useLoading";
 import { LoadingSpinner } from "~/components/LoadingSpinner";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Court from "~/components/Court";
 
 type TimeSlot = {
   start: string;
@@ -32,10 +33,10 @@ const Booking = () => {
   useEffect(() => {
     const fetchSlots = async () => {
       try {
-        const response = await api.get(`/api/v1/bookings`, {
-          params: { date: selectedDate },
+        const response = await api.get(`/api/v1/courts`, {
+          params: { date: selectedDate, courtId: id },
         });
-
+        
         setTimeSlots(response.data);
       } catch (err) {
         console.error("Erro ao buscar horários:", err);

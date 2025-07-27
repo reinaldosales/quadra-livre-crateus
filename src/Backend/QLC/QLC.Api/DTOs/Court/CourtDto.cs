@@ -4,5 +4,5 @@ public record CourtDto(
     long Id,
     string Name,
     string Address,
-    CourtType Type,
+    string Type,
     bool IsAvailable);

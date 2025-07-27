@@ -109,7 +109,28 @@ var courts = app
     .WithOpenApi();
 
 courts.MapPost("/", CreateCourt).RequireAuthorization("Admin");
-courts.MapGet("/", GetAllCourts);
+courts.MapGet("/", GetAllCourts).RequireAuthorization();
+courts.MapGet("/{courtId}/{date}", GetFreeCourtSchedules);
+
+async Task<IResult> GetFreeCourtSchedules(
+    long courtId,
+    DateTime date,
+    ICourtService courtService,
+    HttpContext context,
+    ILogger<Program> logger)
+{
+    try
+    {
+        var results = await courtService.GetFreeCourtSchedules(courtId, date);
+
+        return Results.Ok(results);
+    }
+    catch (Exception e)
+    {
+        logger.LogError(e.Message);
+        return Results.BadRequest();
+    }
+}
 
 async Task<IResult> GetAllCourts(
     ICourtService courtService,

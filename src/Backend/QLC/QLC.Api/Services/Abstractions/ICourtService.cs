@@ -6,4 +6,5 @@ public interface ICourtService
 {
     public Task CreateCourt(CreateCourtDto courtDto);
     public Task<IEnumerable<CourtDto>> GetAll();
+    Task<IEnumerable<DateTime>> GetFreeCourtSchedules(long courtId, DateTime date);
 }

@@ -27,4 +27,12 @@ public class BookingRepository(ApplicationDbContext context) : IBookingRepositor
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.UserId == userId && x.CourtId == courtId && x.Status == status);
     }
+
+    public async Task<IEnumerable<Booking>> GetBookingsByCourtIdAndDate(long courtId, DateTime date)
+    {
+        return await _context.Bookings
+            .AsNoTracking()
+            .Where(x => x.CourtId == courtId && x.StartDate.Date == date)
+            .ToListAsync();
+    }
 }
