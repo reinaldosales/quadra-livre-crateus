@@ -62,7 +62,6 @@ export const useAuthStore = create<AuthState>()(
           localStorage.removeItem('authToken');
         } catch (error) {
           set({ loading: false });
-          console.error('Logout failed:', error);
         }
       },
 

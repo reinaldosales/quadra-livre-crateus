@@ -90,6 +90,8 @@ app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
 
+
+// TODO: Criar Filters para endpoints que usam usuário.
 var bookings = app
     .MapGroup("api/v1/bookings")
     .WithOpenApi()
@@ -198,7 +200,7 @@ async Task<IResult> CreateBooking(
     catch (Exception e)
     {
         logger.LogError(e.Message);
-        return Results.BadRequest();
+        return Results.BadRequest(e.Message);
     }
 }
 

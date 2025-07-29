@@ -1,3 +1,4 @@
+using QLC.Api.DTOs.Booking;
 using QLC.Api.DTOs.Court;
 using QLC.Api.Entities;
 using QLC.Api.Exceptions;
@@ -38,13 +39,13 @@ public class CourtService(
         return courts.Select(court => new CourtDto(court.Id, court.Name, court.Address, court.Type.ToString(), court.IsAvailable));
     }
 
-    public async Task<IEnumerable<DateTime>> GetFreeCourtSchedules(long courtId, DateTime date)
+    public async Task<IEnumerable<FreeCourtSchedulesDto>> GetFreeCourtSchedules(long courtId, DateTime date)
     {
         var court = await _courtRepository.GetById(courtId)
                     ?? throw new CourtNotFoundException();
         
         var bookings = await _bookingRepository.GetBookingsByCourtIdAndDate(court.Id, date);
 
-        return bookings.Select(x => x.StartDate);
+        return bookings.Select(x => new FreeCourtSchedulesDto(x.StartDate, x.EndDate));
     }
 }

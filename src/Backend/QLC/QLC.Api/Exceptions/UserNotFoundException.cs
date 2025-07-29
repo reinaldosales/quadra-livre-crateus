@@ -1,3 +1,3 @@
 namespace QLC.Api.Exceptions;
 
-public class UserNotFoundException() : Exception("User not found");
+public class UserNotFoundException() : Exception("Usuário não encontrado.");

@@ -24,7 +24,7 @@ public class Booking : EntityBase<long>
         StartDate = startDate;
         EndDate = endDate;
         
-        if(startDate > endDate || startDate.Hour < DateTime.Now.Hour || endDate.Hour < DateTime.Now.Hour)
+        if(startDate > endDate)
             throw new CreateBookingException("Invalid date range");
         
         if(startDate.Subtract(endDate).Hours > 2)

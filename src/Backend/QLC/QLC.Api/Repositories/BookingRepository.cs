@@ -32,7 +32,7 @@ public class BookingRepository(ApplicationDbContext context) : IBookingRepositor
     {
         return await _context.Bookings
             .AsNoTracking()
-            .Where(x => x.CourtId == courtId && x.StartDate.Date == date)
+            .Where(x => x.CourtId == courtId && x.StartDate.Date == date.Date)
             .ToListAsync();
     }
 }
