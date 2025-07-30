@@ -15,7 +15,6 @@ interface CourtProps {
 
 const Court: React.FC<CourtProps> = ({ quadra, onClick }) => {
   const { nome, endereco, isAvaliable, descricao, imagens } = quadra;
-  console.log(quadra)
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">

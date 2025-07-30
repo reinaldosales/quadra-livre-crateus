@@ -11,7 +11,8 @@ public static class ServiceIoc
             .AddScoped<IUserService, UserService>()
             .AddScoped<IFeedbackService, FeedbackService>()
             .AddScoped<IBookingService, BookingService>()
-            .AddScoped<ICourtService, CourtService>();
+            .AddScoped<ICourtService, CourtService>()
+            .AddSingleton<IEmailService, EmailService>();
         
         return services;
     }

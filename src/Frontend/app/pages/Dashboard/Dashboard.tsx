@@ -44,7 +44,6 @@ const Dashboard = () => {
 
         setQuadras(transformed);
       } catch (error) {
-        console.error(error);
         setQuadras([]);
       }
     };
@@ -154,7 +153,7 @@ const Dashboard = () => {
               className="w-full bg-qlc-primary text-white font-semibold py-2 px-4 rounded-lg hover:bg-qlc-tertiary transition-colors"
               onClick={() => {
                 closeModal();
-                navigate(`/reservas/${selectedQuadra.id}`);
+                navigate(`/booking/${selectedQuadra.id}`);
               }}
             >
               Reservar

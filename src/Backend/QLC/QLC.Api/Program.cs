@@ -90,6 +90,8 @@ app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
 
+
+// TODO: Criar Filters para endpoints que usam usuário.
 var bookings = app
     .MapGroup("api/v1/bookings")
     .WithOpenApi()
@@ -106,11 +108,31 @@ feedbacks.MapPost("/", CreateFeedback);
 
 var courts = app
     .MapGroup("api/v1/courts")
-    .WithOpenApi()
-    .RequireAuthorization("Admin");
+    .WithOpenApi();
 
-courts.MapPost("/", CreateCourt);
-courts.MapGet("/", GetAllCourts);
+courts.MapPost("/", CreateCourt).RequireAuthorization("Admin");
+courts.MapGet("/", GetAllCourts).RequireAuthorization();
+courts.MapGet("/{courtId}/{date}", GetFreeCourtSchedules);
+
+async Task<IResult> GetFreeCourtSchedules(
+    long courtId,
+    DateTime date,
+    ICourtService courtService,
+    HttpContext context,
+    ILogger<Program> logger)
+{
+    try
+    {
+        var results = await courtService.GetFreeCourtSchedules(courtId, date);
+
+        return Results.Ok(results);
+    }
+    catch (Exception e)
+    {
+        logger.LogError(e.Message);
+        return Results.BadRequest();
+    }
+}
 
 async Task<IResult> GetAllCourts(
     ICourtService courtService,
@@ -178,7 +200,7 @@ async Task<IResult> CreateBooking(
     catch (Exception e)
     {
         logger.LogError(e.Message);
-        return Results.BadRequest();
+        return Results.BadRequest(e.Message);
     }
 }
 
