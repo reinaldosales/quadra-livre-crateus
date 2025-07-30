@@ -8,4 +8,5 @@ export default [
   route("booking/:id", "./routes/booking.tsx"),
   route("contact", "./routes/contact.tsx"),
   route("admin", "./routes/admin.tsx"),
+  route("mybookings", "./routes/mybookings.tsx"),
 ] satisfies RouteConfig;
