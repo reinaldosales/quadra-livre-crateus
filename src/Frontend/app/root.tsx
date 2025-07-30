@@ -13,16 +13,17 @@ import "./app.css";
 import { useEffect } from "react";
 import { useAuthStore } from "./stores/authStore";
 import logo from "~/assets/logo-favicon.ico";
+import { decodeToken } from "./assets/utils/jwtHelper";
 
 export const links: Route.LinksFunction = () => [
   {
     rel: "icon",
     type: "image/x-icon",
-    href: logo
+    href: logo,
   },
   {
     rel: "preconnect",
-    href: "https://fonts.googleapis.com"
+    href: "https://fonts.googleapis.com",
   },
   {
     rel: "preconnect",
@@ -54,24 +55,32 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { isAuthenticated, loading, fetchUser } = useAuthStore();
+  const { isAuthenticated, loading, token, fetchUser } = useAuthStore();
   const navigate = useNavigate();
 
-  // Efeito para carregar o usuário ao montar o app
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
 
-  // Redirecionamento baseado no estado de autenticação
   useEffect(() => {
     if (!loading) {
-      if (isAuthenticated && ['/login', '/register', '/'].includes(window.location.pathname)) {
-        navigate('/dashboard');
+      const currentPath = window.location.pathname;
+      const isAuthPage = ["/login", "/register", "/"].includes(currentPath);
+
+      if (isAuthenticated) {
+        const decoded = token ? decodeToken(token) : null;
+        const isAdmin = decoded?.is_admin === "true";
+
+        if (isAdmin && isAuthPage) {
+          navigate("/admin");
+        } else if (!isAdmin && isAuthPage) {
+          navigate("/dashboard");
+        }
+      } else if (!isAuthPage) {
+        navigate("/");
       }
-    } else if (!isAuthenticated && !['/login', '/register'].includes(window.location.pathname)) {
-      navigate('/');
     }
-  }, [isAuthenticated, loading, navigate]);
+  }, [isAuthenticated, loading, navigate, token]);
 
   return <Outlet />;
 }
@@ -108,7 +117,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         </pre>
       )}
       <button
-        onClick={() => window.location.href = '/'}
+        onClick={() => (window.location.href = "/")}
         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
       >
         Voltar para a página inicial

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Court from "~/components/Court";
 import { NavMenu } from "~/components/nav-menu";
+import ProtectedAdminRoute from "~/components/ProtectedAdminRoute";
 import api from "~/services/api";
 
 // Tipagens
@@ -86,7 +87,7 @@ const AdminPage = () => {
   };
 
   return (
-    <>
+    <ProtectedAdminRoute>
       <NavMenu />
       <div className="p-8 max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">Administração</h1>
@@ -143,7 +144,7 @@ const AdminPage = () => {
           ))}
         </div>
       </div>
-    </>
+    </ProtectedAdminRoute>
   );
 };
 
