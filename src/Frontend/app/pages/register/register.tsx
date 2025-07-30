@@ -134,7 +134,7 @@ const Register = () => {
           </div>
         </form>
 
-        <Footer className="text-xs text-center p-8 absolute bottom-0" />
+        <Footer className="text-xs text-center p-8 w-full" />
       </div>
     </div>
   )

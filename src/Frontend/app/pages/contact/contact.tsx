@@ -5,7 +5,7 @@ const Contact = () => {
     <>
       <NavMenu />
       <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl p-8">
+        <div className="max-w-3xl mx-auto bg-gray-50 shadow-xl rounded-2xl p-8">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
             Fale Conosco
           </h2>
@@ -33,7 +33,7 @@ const Contact = () => {
                 id="name"
                 name="name"
                 required
-                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-yellow-400 focus:ring focus:ring-yellow-300 focus:ring-opacity-50"
+                className="bg-white mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-yellow-400 focus:ring focus:ring-yellow-300 focus:ring-opacity-50 px-3 py-2"
               />
             </div>
             <div>
@@ -48,7 +48,7 @@ const Contact = () => {
                 id="email"
                 name="email"
                 required
-                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-yellow-400 focus:ring focus:ring-yellow-300 focus:ring-opacity-50"
+                className="bg-white mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-yellow-400 focus:ring focus:ring-yellow-300 focus:ring-opacity-50 px-3 py-2"
               />
             </div>
             <div>
@@ -63,13 +63,13 @@ const Contact = () => {
                 name="message"
                 rows={4}
                 required
-                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-yellow-400 focus:ring focus:ring-yellow-300 focus:ring-opacity-50"
+                className="bg-white mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-yellow-400 focus:ring focus:ring-yellow-300 focus:ring-opacity-50 px-3 py-2"
               />
             </div>
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-qlc-secondary hover:bg-qlc-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-qlc-secondary transition-all"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-qlc-secondary hover:bg-qlc-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-qlc-secondary transition-all"
               >
                 Enviar mensagem
               </button>

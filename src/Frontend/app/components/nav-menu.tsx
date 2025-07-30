@@ -10,7 +10,7 @@ export function NavMenu() {
     const navigate = useNavigate();
 
     const userName = user?.email || "Usuário";
-    
+
     const handleLogout = async () => {
         await logout();
         navigate('/');
@@ -26,6 +26,7 @@ export function NavMenu() {
                             className="h-8 w-auto"
                             src={logo}
                             alt="Logo"
+                            onClick={() => navigate('/dashboard')}
                         />
                     </div>
                     {/* Desktop Menu */}
@@ -36,6 +37,12 @@ export function NavMenu() {
                         >
                             Início
                         </a>
+                        {/* <a
+                            href="/booking"
+                            className="text-white hover:text-qlc-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                        >
+                            Minhas reservas
+                        </a> */}
                         <a
                             href="/contact"
                             className="text-white hover:text-qlc-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
@@ -111,11 +118,17 @@ export function NavMenu() {
                     >
                         Início
                     </a>
-                    <a
+                    {/* <a
                         href="/booking"
                         className="block text-white hover:text-qlc-primary px-3 py-2 rounded-md text-base font-medium transition-colors"
                     >
-                        Reservas
+                        Minhas reservas
+                    </a> */}
+                    <a
+                        href="/contact"
+                        className="block text-white hover:text-qlc-primary px-3 py-2 rounded-md text-base font-medium transition-colors"
+                    >
+                        Contato
                     </a>
                     <div className="border-t border-qlc-primary my-2"></div>
                     <div className="flex items-center space-x-2 px-3">
