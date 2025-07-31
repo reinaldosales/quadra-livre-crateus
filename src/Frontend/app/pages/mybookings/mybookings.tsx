@@ -4,33 +4,29 @@ import { useAuthStore } from "~/stores/authStore";
 import api from "~/services/api";
 
 interface IBooking {
-  courtId: number;
+  courtName: string;
   startDate: string;
   endDate: string;
 }
 
 const MyBookings = () => {
-  // const [bookings, setBookings] = useState<IBooking[]>([]);
-  const bookings = [
-    { courtId: 1, startDate: 1, endDate: 2 },
-    { courtId: 2, startDate: 1, endDate: 2 },
-    { courtId: 3, startDate: 1, endDate: 2 }
-  ];
+  const [bookings, setBookings] = useState<IBooking[]>([]);
 
-  // useEffect(() => {
-  //   const fetchBookings = async () => {
-  //     try {
-  //       const response = await api.get("/api/v1/bookings");
-  //       setBookings(response.data);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await api.get("/api/v1/bookings");
+        setBookings(response.data);
+        console.log(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  //   fetchBookings();
-  // }, []);
+    fetchBookings();
+  }, []);
 
-  console.log(bookings)
+  console.log(bookings);
   return (
     <div className="min-h-screen bg-gray-100">
       <NavMenu />
@@ -69,7 +65,7 @@ const MyBookings = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <h2 className="text-lg font-bold text-qlc-primary">
-                        Quadra {booking.courtId}
+                        {booking.courtName}
                       </h2>
                       <p className="text-gray-600">
                         {dia} • {horaInicio} - {horaFim}
