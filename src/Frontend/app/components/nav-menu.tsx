@@ -74,7 +74,7 @@ export function NavMenu() {
               </button>
               {/* Submenu */}
               {accountOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-qlc-primary rounded-md shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-auto bg-white border border-qlc-primary rounded-md shadow-lg z-50">
                   <div className="px-4 py-2 text-qlc-primary text-sm border-b">
                     {userName}
                   </div>

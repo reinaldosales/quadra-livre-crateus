@@ -10,7 +10,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "./stores/authStore";
 import logo from "~/assets/logo-favicon.ico";
 import { decodeToken } from "./assets/utils/jwtHelper";
@@ -57,30 +57,37 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   const { isAuthenticated, loading, token, fetchUser } = useAuthStore();
   const navigate = useNavigate();
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+    fetchUser().finally(() => setIsReady(true));
+  }, []);
 
   useEffect(() => {
-    if (!loading) {
-      const currentPath = window.location.pathname;
-      const isAuthPage = ["/login", "/register", "/"].includes(currentPath);
+    if (!isReady || loading) return;
 
-      if (isAuthenticated) {
-        const decoded = token ? decodeToken(token) : null;
-        const isAdmin = decoded?.is_admin === "true";
+    const currentPath = window.location.pathname;
+    const isAuthPage = ["/login", "/register", "/"].includes(currentPath);
+    const isAdminPage = currentPath.startsWith("/admin");
 
-        if (isAdmin && isAuthPage) {
-          navigate("/admin");
-        } else if (!isAdmin && isAuthPage) {
-          navigate("/dashboard");
-        }
-      } else if (!isAuthPage) {
+    const decoded = token ? decodeToken(token) : null;
+    const isAdmin = decoded?.is_admin === "true";
+
+    if (isAuthenticated) {
+      if (isAdmin && isAuthPage) {
+        navigate("/admin");
+      } else if (!isAdmin && isAuthPage) {
+        navigate("/dashboard");
+      }
+      // Permite admin acessar /admin sem redirecionar
+    } else {
+      // Só redireciona para / se não está autenticado, não está em página de autenticação e não está em admin
+      if (!isAuthPage && !isAdminPage) {
         navigate("/");
       }
+      // Se tem token, aguarde o fetchUser terminar antes de qualquer redirecionamento
     }
-  }, [isAuthenticated, loading, navigate, token]);
+  }, [isAuthenticated, loading, navigate, token, isReady]);
 
   return <Outlet />;
 }

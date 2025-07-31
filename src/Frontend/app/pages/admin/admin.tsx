@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import Court from "~/components/Court";
 import { NavMenu } from "~/components/nav-menu";
 import ProtectedAdminRoute from "~/components/ProtectedAdminRoute";
@@ -78,7 +79,6 @@ const AdminPage = () => {
     e.preventDefault();
     try {
       await api.post("/api/v1/courts", formData);
-      alert("Quadra cadastrada com sucesso!");
       setFormData({ name: "", address: "", type: 1, image: "" });
       fetchCourts();
     } catch (error) {
@@ -87,64 +87,66 @@ const AdminPage = () => {
   };
 
   return (
-    <ProtectedAdminRoute>
-      <NavMenu />
-      <div className="p-8 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-gray-800">Administração</h1>
+    <>
+      <ProtectedAdminRoute>
+        <NavMenu />
+        <div className="p-8 max-w-5xl mx-auto">
+          <h1 className="text-3xl font-bold mb-6 text-gray-800">Administração</h1>
 
-        {/* Formulário de cadastro */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded-lg p-6 mb-10"
-        >
-          <h2 className="text-xl font-semibold mb-4">Cadastrar nova quadra</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              { name: "name", placeholder: "Nome da quadra" },
-              { name: "address", placeholder: "Endereço" },
-              { name: "image", placeholder: "URL da imagem" },
-            ].map(({ name, placeholder }) => (
-              <input
-                key={name}
-                type="text"
-                name={name}
-                placeholder={placeholder}
-                value={(formData as any)[name]}
-                onChange={handleInputChange}
-                required={name !== "image"}
-                className="border rounded px-3 py-2"
-              />
-            ))}
-
-            <select
-              name="type"
-              value={formData.type}
-              onChange={handleInputChange}
-              required
-              className="border rounded px-3 py-2"
-            >
-              <option value={1}>Futsal</option>
-              <option value={2}>Vôlei</option>
-              <option value={3}>Basquete</option>
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          {/* Formulário de cadastro */}
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white shadow-md rounded-lg p-6 mb-10"
           >
-            Cadastrar quadra
-          </button>
-        </form>
+            <h2 className="text-xl font-semibold mb-4">Cadastrar nova quadra</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { name: "name", placeholder: "Nome da quadra" },
+                { name: "address", placeholder: "Endereço" },
+                { name: "image", placeholder: "URL da imagem" },
+              ].map(({ name, placeholder }) => (
+                <input
+                  key={name}
+                  type="text"
+                  name={name}
+                  placeholder={placeholder}
+                  value={(formData as any)[name]}
+                  onChange={handleInputChange}
+                  required={name !== "image"}
+                  className="border rounded px-3 py-2"
+                />
+              ))}
 
-        <h2 className="text-xl font-semibold mb-4">Quadras cadastradas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-8 mt-6">
-          {quadras.map((quadra) => (
-            <Court key={quadra.id} quadra={quadra} adminPage />
-          ))}
+              <select
+                name="type"
+                value={formData.type}
+                onChange={handleInputChange}
+                required
+                className="border rounded px-3 py-2"
+              >
+                <option value={1}>Futsal</option>
+                <option value={0}>Vôlei</option>
+                <option value={2}>Basquete</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Cadastrar quadra
+            </button>
+          </form>
+
+          <h2 className="text-xl font-semibold mb-4">Quadras cadastradas</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-8 mt-6">
+            {quadras.map((quadra) => (
+              <Court key={quadra.id} quadra={quadra} adminPage />
+            ))}
+          </div>
         </div>
-      </div>
-    </ProtectedAdminRoute>
+      </ProtectedAdminRoute>
+    </>
   );
 };
 

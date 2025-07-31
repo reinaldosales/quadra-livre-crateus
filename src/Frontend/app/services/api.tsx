@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "../stores/authStore";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5057",
+  baseURL: import.meta.env.VITE_API_URL || "https://localhost:7012",
   withCredentials: true,
 });
 
@@ -21,7 +21,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const { loading } = useAuthStore.getState();
+    // Só faz logout se não está carregando
+    if (error.response?.status === 401 && !loading) {
       useAuthStore.getState().logout();
     }
     return Promise.reject(error);
