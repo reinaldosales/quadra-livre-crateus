@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QLC.Api.Context;
+using QLC.Api.DTOs.Booking;
 using QLC.Api.Entities;
 using QLC.Api.Repositories.Abstractions;
 
@@ -33,6 +34,14 @@ public class BookingRepository(ApplicationDbContext context) : IBookingRepositor
         return await _context.Bookings
             .AsNoTracking()
             .Where(x => x.CourtId == courtId && x.StartDate.Date == date.Date)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Booking>> GetAllByUserId(string userId)
+    {
+        return await _context.Bookings
+            .AsNoTracking()
+            .Where(x => x.UserId == userId)
             .ToListAsync();
     }
 }

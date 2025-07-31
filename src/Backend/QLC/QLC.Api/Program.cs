@@ -98,6 +98,30 @@ var bookings = app
     .RequireAuthorization();
 
 bookings.MapPost("/", CreateBooking);
+bookings.MapGet("/", GetBookingsByUser);
+
+async Task<IResult> GetBookingsByUser(
+    IBookingService bookingService,
+    HttpContext context,
+    ILogger<Program> logger)
+{
+    try
+    {
+        var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        if (string.IsNullOrEmpty(userId))
+            return Results.Unauthorized();
+        
+        var results = await bookingService.GetAllByUserId(userId);
+        
+        return Results.Ok(results);
+    }
+    catch (Exception e)
+    {
+        logger.LogError(e.Message);
+        return Results.BadRequest();
+    }
+}
 
 var feedbacks = app
     .MapGroup("api/v1/feedbacks")

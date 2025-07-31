@@ -1,3 +1,4 @@
+using QLC.Api.DTOs.Booking;
 using QLC.Api.Entities;
 
 namespace QLC.Api.Repositories.Abstractions;
@@ -8,4 +9,5 @@ public interface IBookingRepository
     public Task<IEnumerable<Booking>> GetAll();
     public Task<Booking?> GetByUserAndCourt(string userId, long courtId, BookingStatus status);
     public Task<IEnumerable<Booking>> GetBookingsByCourtIdAndDate(long courtId, DateTime date);
+    Task<IEnumerable<Booking>> GetAllByUserId(string userId);
 }

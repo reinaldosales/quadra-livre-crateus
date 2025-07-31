@@ -18,24 +18,24 @@ public class BookingService(
     private readonly ICourtRepository _courtRepository = courtRepository;
     private readonly IEmailService _emailService = emailService;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    
+
     public async Task CreateBooking(CreateBookingDto bookingDto)
     {
         User user = await _userRepository.GetById(bookingDto.UserId)
-            ?? throw new UserNotFoundException();
-        
+                    ?? throw new UserNotFoundException();
+
         Court court = await _courtRepository.GetById(bookingDto.CourtId)
-            ?? throw new CourtNotFoundException();
+                      ?? throw new CourtNotFoundException();
 
         Booking? bookingAlreadyMade = await _bookingRepository
             .GetByUserAndCourt(user.Id, bookingDto.CourtId, BookingStatus.Created);
 
         if (bookingAlreadyMade is not null)
             throw new BookingAlreadyMadeException();
-        
-        if(!court.IsAvailable)
+
+        if (!court.IsAvailable)
             throw new CourtNotAvailableException();
-        
+
         Booking booking = new Booking(
             user.Id,
             court.Id,
@@ -45,9 +45,9 @@ public class BookingService(
             createdAt: DateTime.Now,
             updatedAt: DateTime.Now,
             deletedAt: null);
-        
+
         await _bookingRepository.Save(booking);
-        
+
         string htmlBody = string.Format(@"
           <!DOCTYPE html>
           <html lang=""pt-BR"">
@@ -175,6 +175,20 @@ public class BookingService(
 
     public Task<IEnumerable<BookingDto>> GetAll()
     {
-        throw new NotImplementedException();
+      throw new NotImplementedException();
+    }
+
+    public async Task<IEnumerable<BookingDto>> GetAllByUserId(string userId)
+    {
+      var dtos = new List<BookingDto>();
+      var results = await _bookingRepository.GetAllByUserId(userId);
+
+      foreach (var booking in results)
+      {
+        var court = await courtRepository.GetById(booking.CourtId);
+        dtos.Add(new BookingDto(court.Name, booking.StartDate, booking.EndDate));
+      }
+
+      return dtos;
     }
 }
