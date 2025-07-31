@@ -4,6 +4,8 @@ import Court from "~/components/Court";
 import { NavMenu } from "~/components/nav-menu";
 import ProtectedAdminRoute from "~/components/ProtectedAdminRoute";
 import api from "~/services/api";
+import "react-toastify/dist/ReactToastify.css";
+
 
 // Tipagens
 interface User {
@@ -80,8 +82,12 @@ const AdminPage = () => {
     try {
       await api.post("/api/v1/courts", formData);
       setFormData({ name: "", address: "", type: 1, image: "" });
+
+      toast.success("Quadra cadastrada com sucesso!")
+
       fetchCourts();
     } catch (error) {
+      toast.error("Ocorreu um erro ao cadastar a quadra")
       console.error("Erro ao cadastrar quadra:", error);
     }
   };
@@ -91,14 +97,18 @@ const AdminPage = () => {
       <ProtectedAdminRoute>
         <NavMenu />
         <div className="p-8 max-w-5xl mx-auto">
-          <h1 className="text-3xl font-bold mb-6 text-gray-800">Administração</h1>
+          <h1 className="text-3xl font-bold mb-6 text-gray-800">
+            Administração
+          </h1>
 
           {/* Formulário de cadastro */}
           <form
             onSubmit={handleSubmit}
             className="bg-white shadow-md rounded-lg p-6 mb-10"
           >
-            <h2 className="text-xl font-semibold mb-4">Cadastrar nova quadra</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Cadastrar nova quadra
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 { name: "name", placeholder: "Nome da quadra" },
@@ -145,6 +155,7 @@ const AdminPage = () => {
             ))}
           </div>
         </div>
+        <ToastContainer position="top-center" autoClose={3000} />
       </ProtectedAdminRoute>
     </>
   );
