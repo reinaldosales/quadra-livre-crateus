@@ -34,9 +34,10 @@ const Court: React.FC<CourtProps> = ({
       <div className="p-4 flex-1 flex flex-col justify-between">
         {adminPage ? (
           <>
-            <p className="text-gray-500 text-sm italic">{descricao}</p>
-            <button className="mt-4 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-              Apagar quadra
+            <p className="text-black text-lg">{nome}</p>
+            <p className="text-gray-400 text-sm italic">{descricao}</p>
+            <button onClick={() => onClick(quadra)} className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+              Inativar quadra
             </button>
           </>
         ) : (

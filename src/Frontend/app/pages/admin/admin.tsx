@@ -6,14 +6,6 @@ import ProtectedAdminRoute from "~/components/ProtectedAdminRoute";
 import api from "~/services/api";
 import "react-toastify/dist/ReactToastify.css";
 
-
-// Tipagens
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
 interface CourtFormData {
   name: string;
   address: string;
@@ -65,7 +57,6 @@ const AdminPage = () => {
       );
       setQuadras(transformed);
     } catch (error) {
-      console.error("Erro ao buscar quadras:", error);
       setQuadras([]);
     }
   };
@@ -74,7 +65,10 @@ const AdminPage = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "type" ? Number(value) : value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -88,7 +82,6 @@ const AdminPage = () => {
       fetchCourts();
     } catch (error) {
       toast.error("Ocorreu um erro ao cadastar a quadra")
-      console.error("Erro ao cadastrar quadra:", error);
     }
   };
 
@@ -142,7 +135,7 @@ const AdminPage = () => {
 
             <button
               type="submit"
-              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="mt-4 bg-qlc-primary text-white px-4 py-2 rounded hover:bg-blue-700"
             >
               Cadastrar quadra
             </button>
@@ -151,7 +144,7 @@ const AdminPage = () => {
           <h2 className="text-xl font-semibold mb-4">Quadras cadastradas</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-8 mt-6">
             {quadras.map((quadra) => (
-              <Court key={quadra.id} quadra={quadra} adminPage />
+              <Court key={quadra.id} quadra={quadra} adminPage name={quadra.name} />
             ))}
           </div>
         </div>

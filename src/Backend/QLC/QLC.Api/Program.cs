@@ -137,6 +137,23 @@ var courts = app
 courts.MapPost("/", CreateCourt).RequireAuthorization("Admin");
 courts.MapGet("/", GetAllCourts).RequireAuthorization();
 courts.MapGet("/{courtId}/{date}", GetFreeCourtSchedules);
+courts.MapPut("/{courtId}", InactivateCourt).RequireAuthorization("Admin");
+
+async Task<IResult> InactivateCourt(
+    HttpContext context,
+    ICourtService courtService,
+    ILogger<Program> logger)
+{
+    try
+    {
+        return Results.NoContent();
+    }
+    catch (Exception e)
+    {
+        logger.LogError(e.Message);
+        return Results.BadRequest();
+    }
+}
 
 async Task<IResult> GetFreeCourtSchedules(
     long courtId,
