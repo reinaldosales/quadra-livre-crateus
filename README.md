@@ -10,12 +10,12 @@ O objetivo final é democratizar e organizar o acesso a espaços esportivos, pro
 
 ## 8 REQUISITOS FUNCIONAIS
 - Cadastro Simples de Usuários
-  - Registro simplificado (apenas nome, e-mail ou telefone)
+  - Registro simplificado (apenas nome, email e senha)
 - Visualização de Quadras e Horários Disponíveis
-  - Mapa ou lista das quadras filtradas por esporte (vôlei, beach tênis, etc.), localização e horário livre.
+  - Lista das quadras filtradas por esporte (vôlei, beach tênis, etc.), localização e horário livre. Bem como, imagem das quadras.
 - Sistema de Reserva Gratuita
   - Seleção de horário e quadra disponível, com confirmação instantânea.
-  - Limite de reservas por usuário (ex.: 2h/dia) para evitar abuso.
+  - Limite de reservas por usuário de 2h por dia e quadra para evitar abusos.
 - Gestão de Reservas pelo Usuário
   - Painel do usuário com suas reservas ativas e histórico.
 - Painel de Administração para Gestores
@@ -25,7 +25,7 @@ O objetivo final é democratizar e organizar o acesso a espaços esportivos, pro
   - Usuários podem avaliar a condição da quadra (limpeza, iluminação).
   - Sistema de denúncia para reservas indevidas ou mau uso.
 - Cancelamento Autônomo
-  - Opção de cancelamento direto pelo usuário até X horas antes do horário.
+  - Opção de cancelamento direto pelo usuário até 1 horas antes do horário.
 - Confirmação por E-mail/SMS
   - Envio automático de comprovante de reserva com detalhes (local, horário, regras).
 
