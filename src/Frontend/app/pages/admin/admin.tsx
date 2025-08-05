@@ -6,11 +6,18 @@ import ProtectedAdminRoute from "~/components/ProtectedAdminRoute";
 import api from "~/services/api";
 import "react-toastify/dist/ReactToastify.css";
 
+// Tipagens
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
 interface CourtFormData {
   name: string;
   address: string;
   type: number;
-  image: string;
+  image: File | null;
 }
 
 interface CourtType {
@@ -23,18 +30,17 @@ interface CourtType {
   isAvaliable: boolean;
 }
 
-// Constantes
-const USERS_PER_PAGE = 10;
 const DEFAULT_COURT_IMAGE =
   "https://altipisos.com.br/wp-content/uploads/2021/04/site-1.jpg";
 
 const AdminPage = () => {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [quadras, setQuadras] = useState<CourtType[]>([]);
   const [formData, setFormData] = useState<CourtFormData>({
     name: "",
     address: "",
     type: 1,
-    image: "",
+    image: null,
   });
 
   useEffect(() => {
@@ -71,17 +77,35 @@ const AdminPage = () => {
     }));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFormData((prev) => ({
+        ...prev,
+        image: e.target.files![0],
+      }));
+
+      const previewUrl = URL.createObjectURL(e.target.files![0]);
+      setImagePreview(previewUrl);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await api.post("/api/v1/courts", formData);
-      setFormData({ name: "", address: "", type: 1, image: "" });
+      setFormData({ name: "", address: "", type: 1, image: null });
 
-      toast.success("Quadra cadastrada com sucesso!")
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+        setImagePreview(null);
+      }
+
+      toast.success("Quadra cadastrada com sucesso!");
 
       fetchCourts();
     } catch (error) {
-      toast.error("Ocorreu um erro ao cadastar a quadra")
+      toast.error("Ocorreu um erro ao cadastar a quadra");
+      console.error("Erro ao cadastrar quadra:", error);
     }
   };
 
@@ -106,7 +130,6 @@ const AdminPage = () => {
               {[
                 { name: "name", placeholder: "Nome da quadra" },
                 { name: "address", placeholder: "Endereço" },
-                { name: "image", placeholder: "URL da imagem" },
               ].map(({ name, placeholder }) => (
                 <input
                   key={name}
@@ -131,6 +154,34 @@ const AdminPage = () => {
                 <option value={0}>Vôlei</option>
                 <option value={2}>Basquete</option>
               </select>
+
+              <div className="flex flex-col gap-2 md:col-span-2">
+                <label
+                  htmlFor="imageUpload"
+                  className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded w-fit"
+                >
+                  {!imagePreview ? "Selecionar imagem" : "Alterar imagem"}
+                </label>
+
+                <input
+                  id="imageUpload"
+                  type="file"
+                  accept="image/*"
+                  name="image"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+
+                {imagePreview && (
+                  <div className="relative border rounded overflow-hidden max-w-sm">
+                    <img
+                      src={imagePreview}
+                      alt="Preview da imagem"
+                      className="object-cover w-full max-h-64"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             <button
@@ -144,7 +195,12 @@ const AdminPage = () => {
           <h2 className="text-xl font-semibold mb-4">Quadras cadastradas</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-8 mt-6">
             {quadras.map((quadra) => (
-              <Court key={quadra.id} quadra={quadra} adminPage name={quadra.name} />
+              <Court
+                key={quadra.id}
+                quadra={quadra}
+                adminPage
+                name={quadra.name}
+              />
             ))}
           </div>
         </div>
