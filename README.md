@@ -1,5 +1,15 @@
 # PARA DIA 30/05/2025
 
+## Problemática
+
+Atualmente, muitas quadras esportivas públicas ou comunitárias enfrentam problemas recorrentes de falta de organização no uso, acessos desiguais e baixa comunicação entre usuários e administradores. A ausência de um sistema centralizado e digital dificulta o processo de reserva, levando a conflitos de horário, ocupações indevidas, e até o uso repetido por poucos usuários em detrimento da comunidade. Além disso, não há uma forma eficiente de controlar a disponibilidade, bloquear horários para manutenção, ou coletar feedback dos usuários sobre a qualidade das quadras e comportamentos inadequados.
+
+Essa desorganização compromete a experiência dos frequentadores, gera desgastes entre usuários e gestores, e impede que o uso das quadras seja justo, transparente e otimizado.
+
+## Objetivo do projeto
+
+O objetivo final é democratizar e organizar o acesso a espaços esportivos, promovendo maior inclusão, transparência e cuidado com os recursos públicos ou coletivos.
+
 ## 8 REQUISITOS FUNCIONAIS
 - Cadastro Simples de Usuários
   - Registro simplificado (apenas nome, e-mail ou telefone)
