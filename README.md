@@ -42,3 +42,145 @@ O objetivo final é democratizar e organizar o acesso a espaços esportivos, pro
 ## CASOS DE USO
 
 ![Casos de uso](useCase.png)
+
+# Guia de Execução do Projeto Quadra Livre Crateús
+
+## Índice
+1. [Pré-requisitos](#pré-requisitos)
+2. [Clonando o Repositório](#clonando-o-repositório)
+3. [Executando o Backend](#executando-o-backend)
+4. [Executando o Frontend](#executando-o-frontend)
+5. [Execução via Docker (Opcional)](#execução-via-docker-opcional)
+6. [Links Úteis](#links-úteis)
+7. [Dúvidas Frequentes](#dúvidas-frequentes)
+
+---
+
+## Pré-requisitos
+
+Antes de começar, instale os seguintes softwares:
+
+- [Git](https://git-scm.com/downloads) – Para clonar o projeto.
+- [Node.js (v18+)](https://nodejs.org/en/download/) – Para rodar o frontend.
+- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) – Gerenciador de pacotes do Node.
+- [Docker](https://www.docker.com/products/docker-desktop/) – (Opcional) Para rodar tudo em containers.
+- [.NET SDK (v7+)](https://dotnet.microsoft.com/en-us/download) – Para rodar o backend (caso não use Docker).
+- [Visual Studio Code](https://code.visualstudio.com/) – Recomendado para editar e visualizar o código. Pode optar também pelo Visual Studio 2022 ou Jetbrains Rider.
+
+---
+
+## Clonando o Repositório
+
+Abra o terminal e execute:
+
+```sh
+git clone https://github.com/reinaldosales/quadra-livre-crateus.git
+cd quadra-livre-crateus
+```
+
+---
+
+## Executando o Backend
+
+1. **Acesse a pasta do backend:**
+
+   ```sh
+   cd src/Backend/QLC
+   ```
+
+2. **Abra a solução no Visual Studio ou rode via terminal:**
+
+   - **Via Visual Studio:**  
+     Abra o arquivo `QLC.sln` e clique em "Run".
+   - **Via terminal:**  
+     ```sh
+     dotnet restore
+     dotnet build
+     dotnet run
+     ```
+   - O backend deve iniciar na porta configurada (ex: `http://localhost:7012`).
+   - Para acessar o scalar utilize `http://localhost:7012/scalar`
+
+3. **Configuração do Banco de Dados:**  
+   - O projeto usa SQLite.
+   - O banco de dados é criado na raiz do projeto Backend com o nome `quadralivrecrateus.dat`.
+
+---
+
+## Executando o Frontend
+
+1. **Acesse a pasta do frontend:**
+
+   ```sh
+   cd src/Frontend
+   ```
+
+2. **Instale as dependências:**
+
+   ```sh
+   npm install
+   ```
+
+3. **Execute o projeto:**
+
+   ```sh
+   npm run dev
+   ```
+
+   - O frontend estará disponível em `http://localhost:5173` (ou porta informada no terminal).
+
+4. **Configuração de API:**  
+   - Certifique-se de que o endereço da API no frontend está correto (ex: `http://localhost:7012/api`).
+   - O projeto de frontend sempre aponta para a porta 7012, onde roda a api.
+
+---
+
+## Execução via Docker (Opcional)
+
+1. **Backend:**  
+   - Crie um Dockerfile na pasta do backend (se não existir).
+   - Execute:
+     ```sh
+     docker build -t qlc-backend .
+     docker run -p 5000:5000 qlc-backend
+     ```
+
+2. **Frontend:**  
+   - Já existe um Dockerfile em `src/Frontend`.
+   - Execute:
+     ```sh
+     cd src/Frontend
+     docker build -t qlc-frontend .
+     docker run -p 3000:3000 qlc-frontend
+     ```
+   - Acesse `http://localhost:3000`.
+
+3. **Docker Compose:**  
+   - Será atualizado para comportar docker compose posteriormente.
+
+---
+
+## Links Úteis
+
+- [Documentação do .NET](https://learn.microsoft.com/pt-br/dotnet/)
+- [Documentação do React](https://react.dev/)
+- [Guia do Docker](https://docs.docker.com/get-started/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Figma das Telas](https://www.figma.com/file/OXTSbj3H4YIdDJvgfaNx1d?node-id=0:1&locale=en&type=design)
+
+---
+
+## Dúvidas Frequentes
+
+- **Erro de porta ocupada:**  
+  Altere a porta no arquivo de configuração ou encerre o processo que está usando a porta.
+
+- **Problemas de dependências:**  
+  Rode `npm install` novamente ou `dotnet restore` no backend.
+
+- **Banco de dados não conecta:**  
+  Verifique se o serviço está rodando e se a string de conexão está correta.
+
+---
+
+**Dica:** Sempre leia os arquivos README das pastas para instruções específicas
