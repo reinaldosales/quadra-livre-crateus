@@ -41,7 +41,9 @@ O objetivo final é democratizar e organizar o acesso a espaços esportivos, pro
 
 ## CASOS DE USO
 
-![Casos de uso](useCase.png)
+![Casos de uso 1](useCase.png)
+
+![Casos de uso 2](useCase2.png)
 
 # Guia de Execução do Projeto Quadra Livre Crateús
 
