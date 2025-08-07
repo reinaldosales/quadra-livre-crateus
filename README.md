@@ -226,7 +226,7 @@ a certeza de que o sistema está pronto para ser utilizado com segurança, clare
 
 ## Ficha Utilizada pela a voluntária Yasmin, 20 anos.
 
-## Observação final da voluntária:"Todas as funcionalidades do sistema que eu testei estavam funcionando corretamente. O sistema é de fácil uso e bem intuitivo, será bem útil".
+Observação final da voluntária: "Todas as funcionalidades do sistema que eu testei estavam funcionando corretamente. O sistema é de fácil uso e bem intuitivo, será bem útil".
 
 <img width="2106" height="2837" alt="image" src="https://github.com/user-attachments/assets/7d3326a7-af29-404a-b824-090afefe6446" />
 <img width="1915" height="2786" alt="image" src="https://github.com/user-attachments/assets/9593d608-2c90-41c4-b609-8e29f080b4ac" />
