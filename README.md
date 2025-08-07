@@ -182,6 +182,8 @@ cd quadra-livre-crateus
 
 - **Banco de dados não conecta:**  
   Verifique se o serviço está rodando e se a string de conexão está correta.
+
+  **Dica:** Sempre leia os arquivos README das pastas para instruções específicas
 ---
 
 ## Relatório de Teste de Usabilidade – Sistema
@@ -226,4 +228,4 @@ a certeza de que o sistema está pronto para ser utilizado com segurança, clare
 
 ---
 
-**Dica:** Sempre leia os arquivos README das pastas para instruções específicas
+
