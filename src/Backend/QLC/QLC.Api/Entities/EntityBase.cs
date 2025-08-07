@@ -17,4 +17,6 @@ public class EntityBase<TKey> where TKey : IEquatable<TKey>
     public DateTime UpdatedAt { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? DeletedAt { get; private set; }
+    
+    public void UpdateUpdatedAt() => UpdatedAt = DateTime.Now;
 }

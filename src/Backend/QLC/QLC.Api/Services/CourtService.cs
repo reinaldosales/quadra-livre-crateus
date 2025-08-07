@@ -48,4 +48,26 @@ public class CourtService(
 
         return bookings.Select(x => new FreeCourtSchedulesDto(x.StartDate, x.EndDate));
     }
+
+    public async Task InactivateCourt(long courtId)
+    {
+        var court = await _courtRepository.GetById(courtId)
+            ?? throw new CourtNotFoundException();
+
+        court.SetAsUnavailable();
+        court.UpdateUpdatedAt();
+        
+        await _unitOfWork.CommitAsync();
+    }
+
+    public async Task ActivateCourt(long courtId)
+    {
+        var court = await _courtRepository.GetById(courtId)
+                    ?? throw new CourtNotFoundException();
+
+        court.SetAsAvailable();
+        court.UpdateUpdatedAt();
+        
+        await _unitOfWork.CommitAsync();
+    }
 }

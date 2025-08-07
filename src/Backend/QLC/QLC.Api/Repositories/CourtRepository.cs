@@ -24,7 +24,6 @@ public class CourtRepository(ApplicationDbContext context) : ICourtRepository
     public async Task<Court?> GetById(long id)
     {
         return await _context.Courts
-            .AsNoTracking()
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 }

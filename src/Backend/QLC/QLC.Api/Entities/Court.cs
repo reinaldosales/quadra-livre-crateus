@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace QLC.Api.Entities;
 
 public class Court : EntityBase<long>
@@ -25,4 +27,8 @@ public class Court : EntityBase<long>
     public string Address { get; private set; }
     public CourtType Type { get; private set; }
     public bool IsAvailable { get; private set; }
+
+    public void SetAsUnavailable() => IsAvailable = false;
+
+    public void SetAsAvailable() => IsAvailable = true;
 }

@@ -39,13 +39,14 @@ builder.Services.AddCors(options =>
     options.AddPolicy(MyAllowSpecificOrigins,
         policy =>
         {
+            
             policy.WithOrigins(
-                    "http://localhost:5173",
-                    "https://localhost:5173"
-                )
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
+                builder.Configuration["Cors:http"],
+                builder.Configuration["Cors:https"]
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
         });
 });
 
@@ -108,12 +109,12 @@ async Task<IResult> GetBookingsByUser(
     try
     {
         var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
+
         if (string.IsNullOrEmpty(userId))
             return Results.Unauthorized();
-        
+
         var results = await bookingService.GetAllByUserId(userId);
-        
+
         return Results.Ok(results);
     }
     catch (Exception e)
@@ -137,15 +138,38 @@ var courts = app
 courts.MapPost("/", CreateCourt).RequireAuthorization("Admin");
 courts.MapGet("/", GetAllCourts).RequireAuthorization();
 courts.MapGet("/{courtId}/{date}", GetFreeCourtSchedules);
-courts.MapPut("/{courtId}", InactivateCourt).RequireAuthorization("Admin");
+courts.MapPost("/inactivate/{courtId}", InactivateCourt).RequireAuthorization("Admin");
+courts.MapPost("/activate/{courtId}", ActivateCourt).RequireAuthorization("Admin");
 
-async Task<IResult> InactivateCourt(
+async Task<IResult>  ActivateCourt(
+    long courtId,
     HttpContext context,
     ICourtService courtService,
     ILogger<Program> logger)
 {
     try
     {
+        await courtService.ActivateCourt(courtId);
+        
+        return Results.NoContent();
+    }
+    catch (Exception e)
+    {
+        logger.LogError(e.Message);
+        return Results.BadRequest();
+    }
+}
+
+async Task<IResult> InactivateCourt(
+    long courtId,
+    HttpContext context,
+    ICourtService courtService,
+    ILogger<Program> logger)
+{
+    try
+    {
+        await courtService.InactivateCourt(courtId);
+        
         return Results.NoContent();
     }
     catch (Exception e)
@@ -219,10 +243,10 @@ async Task<IResult> CreateBooking(
     try
     {
         var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
+
         if (string.IsNullOrEmpty(userId))
             return Results.Unauthorized();
-        
+
         var validationResult = model.Validate();
 
         if (validationResult != null)
@@ -254,10 +278,10 @@ async Task<IResult> CreateFeedback(
     try
     {
         var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
+
         if (string.IsNullOrEmpty(userId))
             return Results.Unauthorized();
-        
+
         var validationResult = model.Validate();
 
         if (validationResult != null)
@@ -292,7 +316,7 @@ app.MapPost("/api/v1/login", async (
     IConfiguration config) =>
 {
     var user = await userManager.FindByEmailAsync(model.Email);
-    
+
     if (user == null)
         return Results.Unauthorized();
 
