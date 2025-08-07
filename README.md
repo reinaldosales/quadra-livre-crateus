@@ -182,6 +182,47 @@ cd quadra-livre-crateus
 
 - **Banco de dados não conecta:**  
   Verifique se o serviço está rodando e se a string de conexão está correta.
+---
+
+## Relatório de Teste de Usabilidade – Sistema
+Quadra Livre Crateús
+
+O presente relatório tem como objetivo apresentar os testes de usabilidade realizados na aplicação
+Quadra Livre Crateús – uma plataforma digital criada para facilitar o agendamento de quadras
+públicas de esportes de areia na cidade de Crateús. O foco principal foi garantir que o sistema
+estivesse acessível, funcional e intuitivo para o público-alvo, promovendo uma melhor experiência
+de uso.
+
+A abordagem utilizada envolveu dois momentos distintos: um teste em grupo, realizado entre
+membros da equipe por meio de uma chamada no Google Meet, e um teste individual com uma
+usuária voluntária, que não possuía envolvimento prévio com o projeto. Durante o teste em grupo,
+observamos algumas falhas que interferiam diretamente na experiência de uso, como botões que
+não estavam executando ações corretamente e falhas no envio automático de e-mails de
+confirmação. Esses problemas foram documentados e, em seguida, corrigidos. No segundo
+momento, a usuária convidada realizou uma série de tarefas propostas por nós, como criar conta,
+fazer login, agendar quadra, cancelar agendamento e enviar mensagem pelo menu de contato.
+Acompanhamos o processo de forma observacional, sem interferência.
+
+As tarefas incluídas no roteiro foram: • Criar uma conta na plataforma; • Realizar login; • Acessar a
+visualização de uma quadra; • Agendar um horário disponível; • Verificar a chegada do e-mail de
+confirmação; • Cancelar o agendamento e realizar novo agendamento; • Enviar uma mensagem de
+contato; • Efetuar logout.
+
+Após os ajustes realizados com base no teste em grupo, o teste individual apresentou ótimos
+resultados. A usuária conseguiu navegar com fluidez por todas as etapas, sem apresentar dúvidas
+ou travamentos. Os fluxos do sistema funcionaram conforme o planejado, com respostas rápidas e
+interface clara. As funcionalidades de agendamento, cancelamento e reagendamento funcionaram
+corretamente, e o e-mail de confirmação foi entregue quase instantaneamente. As regras do
+sistema também foram respeitadas, como o limite de horas por usuário.
+
+O sistema Quadra Livre Crateús demonstrou estar preparado para atender às demandas do seu
+público. Os testes de usabilidade foram fundamentais para validar as funcionalidades
+implementadas e identificar pontos de melhoria. Ainda que funcionalidades como integração com
+WhatsApp ainda não estejam ativas, o sistema já oferece uma solução robusta e eficiente para
+democratizar o acesso aos espaços públicos esportivos do município. Finalizamos o relatório com
+a certeza de que o sistema está pronto para ser utilizado com segurança, clareza e funcionalidade.
+
+
 
 ---
 
