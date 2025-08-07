@@ -36,9 +36,16 @@ const Court: React.FC<CourtProps> = ({
           <>
             <p className="text-black text-lg">{nome}</p>
             <p className="text-gray-400 text-sm italic">{descricao}</p>
-            <button onClick={() => onClick(quadra)} className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-              Inativar quadra
-            </button>
+
+            {isAvaliable ? (
+              <button onClick={() => onClick(quadra)} className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                Inativar quadra
+              </button>
+            ) : (
+              <button onClick={() => onClick(quadra)} className="mt-4 bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                Ativar quadra
+              </button>
+            )}
           </>
         ) : (
           <>

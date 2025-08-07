@@ -50,12 +50,13 @@ const AdminPage = () => {
   const fetchCourts = async () => {
     try {
       const { data } = await api.get("/api/v1/courts");
+      
       const transformed = data.map(
         (item: any): CourtType => ({
           id: item.id.toString(),
           nome: item.name,
           imagens: item.images?.length ? item.images : [DEFAULT_COURT_IMAGE],
-          descricao: "Quadra disponível para agendamento.",
+          descricao: item.isAvailable ? "Quadra disponível para agendamento." : "Quadra não disponível para agendamento.",
           endereco: item.address || "Endereço não disponível",
           tipos: [item.type],
           isAvaliable: item.isAvailable,
@@ -108,6 +109,30 @@ const AdminPage = () => {
       console.error("Erro ao cadastrar quadra:", error);
     }
   };
+  
+  async function inactivateCourt(quadra: { id: number; nome: string; endereco: string; tipos: number; isAvaliable: boolean; descricao: string; imagens?: string[] | undefined; }): Promise<void> {
+    try {
+      await api.post(`/api/v1/courts/inactivate/${quadra.id}`);
+
+      toast.success(`Quadra ${quadra.nome} inativada com sucesso!`);
+
+      fetchCourts();
+    } catch (error) {
+      toast.error("Ocorreu um erro ao inativar a quadra");
+    }
+  }
+
+  async function activateCourt(quadra: { id: number; nome: string; endereco: string; tipos: number; isAvaliable: boolean; descricao: string; imagens?: string[] | undefined; }): Promise<void> {
+    try {
+      await api.post(`/api/v1/courts/activate/${quadra.id}`);
+
+      toast.success(`Quadra ${quadra.nome} ativada com sucesso!`);
+
+      fetchCourts();
+    } catch (error) {
+      toast.error("Ocorreu um erro ao ativar a quadra");
+    }
+  }
 
   return (
     <>
@@ -158,7 +183,7 @@ const AdminPage = () => {
               <div className="flex flex-col gap-2 md:col-span-2">
                 <label
                   htmlFor="imageUpload"
-                  className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded w-fit"
+                  className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-fit"
                 >
                   {!imagePreview ? "Selecionar imagem" : "Alterar imagem"}
                 </label>
@@ -193,9 +218,11 @@ const AdminPage = () => {
           </form>
 
           <h2 className="text-xl font-semibold mb-4">Quadras cadastradas</h2>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-8 mt-6">
             {quadras.map((quadra) => (
               <Court
+                onClick={quadra.isAvaliable ? inactivateCourt : activateCourt}
                 key={quadra.id}
                 quadra={quadra}
                 adminPage
