@@ -224,6 +224,14 @@ WhatsApp ainda não estejam ativas, o sistema já oferece uma solução robusta 
 democratizar o acesso aos espaços públicos esportivos do município. Finalizamos o relatório com
 a certeza de que o sistema está pronto para ser utilizado com segurança, clareza e funcionalidade.
 
+Ficha de intrução Utilizada pela a voluntária Yasmin, 20 anos.
+
+Observação final da voluntária:"Todas as funcionalidades do sistema que eu testei estavam funcionando corretamente. 
+O sistema é de fácil uso e bem intuitivo, será bem útil".
+
+<img width="2106" height="2837" alt="image" src="https://github.com/user-attachments/assets/7d3326a7-af29-404a-b824-090afefe6446" />
+<img width="1915" height="2786" alt="image" src="https://github.com/user-attachments/assets/9593d608-2c90-41c4-b609-8e29f080b4ac" />
+
 
 
 ---
